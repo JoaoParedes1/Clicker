@@ -1,0 +1,2 @@
+# Clicker
+Basic clicker app
