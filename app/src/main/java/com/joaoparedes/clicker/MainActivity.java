@@ -11,6 +11,8 @@ public class MainActivity extends AppCompatActivity {
 
     private Button btn;
     public static int numeroCookies;
+    public static int click;
+    public static int cps;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,28 +21,17 @@ public class MainActivity extends AppCompatActivity {
 
         btn = findViewById(R.id.btn_jogar);
         numeroCookies = 0;
+        click = 1;
+        cps = 1;
 
 
         btn.setOnClickListener(view -> {
+            Intent intent = new Intent(
+                    getApplicationContext(),
+                    GameActivity.class
+            );
 
-            AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-            builder.setMessage("Tem certeza que deseja jogar esse jogo?");
-            builder.setCancelable(true);
-            builder.setPositiveButton(
-                    "Sim",
-                    (dialog, id) -> {
-                        dialog.dismiss();
-                        Intent intent = new Intent(
-                                getApplicationContext(),
-                                GameActivity.class
-                        );
-
-                        startActivity(intent);
-
-                    });
-            AlertDialog alert = builder.create();
-            alert.show();
-
+            startActivity(intent);
         });
 
     }
