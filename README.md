@@ -1,2 +1,2 @@
-# Quem quer comer meu cookie
+# Clicker game
 Basic clicker app
