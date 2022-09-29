@@ -1,9 +1,5 @@
 package com.joaoparedes.clicker;
 
-import static com.joaoparedes.clicker.MainActivity.click;
-import static com.joaoparedes.clicker.MainActivity.cps;
-import static com.joaoparedes.clicker.MainActivity.numeroCookies;
-
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -14,12 +10,16 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.joaoparedes.clicker.models.Cookie;
+import com.joaoparedes.clicker.repositories.UpgradeRepository;
+
 public class GameActivity extends AppCompatActivity {
 
     private TextView quantText;
+    private TextView quantCs;
     private ImageButton cookieButton;
     private Button upgrades;
-
+    Cookie cookie = Cookie.getInstance();
 
     Handler handler = new Handler();
     Runnable runnable;
@@ -34,14 +34,13 @@ public class GameActivity extends AppCompatActivity {
 
         cookieButton = findViewById(R.id.game_image_button);
         quantText = findViewById(R.id.game_cookies);
-        quantText.setText(String.valueOf(numeroCookies));
-        upgrades = findViewById(R.id.upgrades_button);
-
+        quantCs = findViewById(R.id.game_cookies_psecond);
+        upgrades = findViewById(R.id.game_upgrades_button);
 
         cookieButton.setOnClickListener(view -> {
             view.startAnimation(new AlphaAnimation(1F, 0.7F));
-            numeroCookies +=click;
-            quantText.setText(String.valueOf(numeroCookies));
+            cookie.cookieClick();
+            quantText.setText(String.valueOf(cookie.getNumeroCookies()));
         });
 
 
@@ -58,10 +57,13 @@ public class GameActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        quantText.setText(String.valueOf(cookie.getNumeroCookies()));
+
 
         handler.postDelayed( runnable = () -> {
-            numeroCookies +=cps;
-            quantText.setText(String.valueOf(numeroCookies));
+            cookie.cookieSegundo();
+            quantText.setText(String.valueOf(cookie.getNumeroCookies()));
+            quantCs.setText(String.valueOf(cookie.getCps()) + " c/s");
             handler.postDelayed(runnable, delay);
         }, delay);
 

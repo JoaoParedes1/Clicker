@@ -1,22 +1,29 @@
 package com.joaoparedes.clicker.adapters;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.joaoparedes.clicker.R;
+import com.joaoparedes.clicker.models.Cookie;
 import com.joaoparedes.clicker.models.Upgrade;
+import com.joaoparedes.clicker.repositories.UpgradeRepository;
 
 import java.util.ArrayList;
 
 public class UpgradeAdapter extends RecyclerView.Adapter<UpgradeAdapter.UpgradeViewHolder> {
 
     private ArrayList<Upgrade> upgrades;
+    Cookie cookie = Cookie.getInstance();
+    UpgradeRepository ur = UpgradeRepository.getInstance();
 
     public UpgradeAdapter(ArrayList<Upgrade> upgrades){
         this.upgrades = upgrades;
@@ -24,9 +31,7 @@ public class UpgradeAdapter extends RecyclerView.Adapter<UpgradeAdapter.UpgradeV
 
     @NonNull
     @Override
-    public UpgradeViewHolder onCreateViewHolder(
-            @NonNull ViewGroup parent,
-            int viewType) {
+    public UpgradeViewHolder onCreateViewHolder(@NonNull ViewGroup parent,int viewType) {
 
         LayoutInflater layoutInflater =
                 LayoutInflater.from(parent.getContext());
@@ -43,16 +48,57 @@ public class UpgradeAdapter extends RecyclerView.Adapter<UpgradeAdapter.UpgradeV
     @Override
     public void onBindViewHolder(@NonNull UpgradeViewHolder holder
             , int position) {
-
         Upgrade upgrade = upgrades.get(position);
 
-//        ImageView imageViewPic = holder.itemView.findViewById(R.id.upgrade_pic);
-        TextView textViewTitulo = holder.itemView.findViewById(R.id.upgrade_titulo);
-        TextView textViewDesc = holder.itemView.findViewById(R.id.upgrade_desc);
+        TextView textViewTitulo = holder.itemView.findViewById(R.id.upgradeView_titulo);
+        TextView textViewDesc = holder.itemView.findViewById(R.id.upgradeView_desc);
+        TextView textViewCusto = holder.itemView.findViewById(R.id.upgradeView_custo);
 
-//        imageViewPic.setImageDrawable(upgrade.getFoto());
         textViewTitulo.setText(upgrade.getNome());
         textViewDesc.setText(upgrade.getDesc());
+        textViewCusto.setText(String.valueOf(upgrade.getCusto()));
+
+        Context context = holder.constraintLayout.getContext();
+
+
+        if(upgrade.getCusto() <= cookie.getNumeroCookies()) {
+            holder.constraintLayout.setAlpha(1f);
+            holder.constraintLayout.setClickable(true);
+
+            holder.constraintLayout.setOnClickListener( v-> {
+                cookie.setNumeroCookies(cookie.getNumeroCookies() - upgrade.getCusto());
+
+                if(upgrade.getNome() == "Vitoria") {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    builder.setMessage("Voce ganhou!");
+                    builder.setCancelable(true);
+                    builder.setPositiveButton(
+                            "Oba",
+                            (dialog, id) -> {
+                                Intent intent = new Intent(Intent.ACTION_MAIN);
+                                intent.addCategory(Intent.CATEGORY_HOME);
+                                context.startActivity(intent);
+
+                            });
+                    AlertDialog alert = builder.create();
+                    alert.show();
+                }
+
+                if (upgrade.isClick()) {
+                    cookie.setClick(cookie.getClick() + upgrade.getEfeito());
+                } else {
+                    cookie.setCps(cookie.getCps() + upgrade.getEfeito());
+                }
+                Upgrade novoUpgrade = new Upgrade(upgrade.getNome(),upgrade.getDesc(),upgrade.getEfeito()*2,upgrade.isClick(),upgrade.getCusto()*3);
+                ur.save(novoUpgrade);
+
+                ur.delete(upgrade);
+                notifyDataSetChanged();
+            });
+        } else {
+            holder.constraintLayout.setAlpha(.5f);
+            holder.constraintLayout.setClickable(false);
+        }
     }
 
     @Override
@@ -60,11 +106,15 @@ public class UpgradeAdapter extends RecyclerView.Adapter<UpgradeAdapter.UpgradeV
         return upgrades.size();
     }
 
-    public static class UpgradeViewHolder
-            extends RecyclerView.ViewHolder{
+    public static class UpgradeViewHolder extends RecyclerView.ViewHolder{
+        private ConstraintLayout constraintLayout;
 
         public UpgradeViewHolder(@NonNull View itemView) {
             super(itemView);
+
+            constraintLayout = itemView.findViewById(R.id.upgradeView_card);
+            constraintLayout.setAlpha(.5f);
+            constraintLayout.setClickable(false);
         }
     }
 }

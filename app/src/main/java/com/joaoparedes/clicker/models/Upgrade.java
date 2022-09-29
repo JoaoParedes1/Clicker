@@ -3,47 +3,35 @@ package com.joaoparedes.clicker.models;
 public class Upgrade {
     private String nome;
     private String desc;
-    private String foto;
     private int efeito;
     private boolean click;
+    private int custo;
+
+    public Upgrade(String nome, String desc, int efeito, boolean click, int custo) {
+        this.nome = nome;
+        this.desc = desc;
+        this.efeito = efeito;
+        this.click = click;
+        this.custo = custo;
+    }
 
     public String getNome() {
         return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
     }
 
     public String getDesc() {
         return desc;
     }
 
-    public void setDesc(String desc) {
-        this.desc = desc;
-    }
-
-    public String getFoto() {
-        return foto;
-    }
-
-    public void setFoto(String foto) {
-        this.foto = foto;
-    }
-
     public int getEfeito() {
         return efeito;
-    }
-
-    public void setEfeito(int efeito) {
-        this.efeito = efeito;
     }
 
     public boolean isClick() {
         return click;
     }
 
-    public void setClick(boolean click) {
-        this.click = click;
+    public int getCusto() {
+        return custo;
     }
 }

@@ -5,42 +5,46 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="horizontal"
     android:background="@drawable/back"
+    android:id="@+id/upgradeView_card"
     >
 
 
-    <ImageView
-        android:id="@+id/upgrade_pic"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:padding="24dp"
-        android:src="@drawable/ic_baseline_call_made_24"
-        android:background="@drawable/back"
-        />
-
     <TextView
-        android:id="@+id/upgrade_titulo"
+        android:id="@+id/upgradeView_titulo"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:paddingLeft="8dp"
-        app:layout_constraintLeft_toRightOf="@+id/upgrade_pic"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/upgrade_desc"
+        app:layout_constraintRight_toLeftOf="@id/upgradeView_custo"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/upgradeView_desc"
         android:textStyle="italic|bold"
-        android:text="CLICK" />
+        android:text="Titulo" />
 
     <TextView
-        android:id="@+id/upgrade_desc"
+        android:id="@+id/upgradeView_desc"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:padding="8dp"
-        app:layout_constraintLeft_toRightOf="@+id/upgrade_pic"
-        app:layout_constraintTop_toBottomOf="@+id/upgrade_titulo"
+        app:layout_constraintTop_toBottomOf="@+id/upgradeView_titulo"
+        app:layout_constraintRight_toLeftOf="@id/upgradeView_custo"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:text="descricao" />
+
+    <TextView
+        android:id="@+id/upgradeView_custo"
+        android:text="10"
+        android:paddingRight="8sp"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:paddingVertical="13dp"
+        android:background="@drawable/back"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBottom_toBottomOf="@+id/upgrade_pic"
-        android:text="desc desc desc desc desc desc desc desc desc" />
+        app:layout_constraintBottom_toBottomOf="@id/upgradeView_desc"
+        />
 
 
 
