@@ -52,10 +52,12 @@ public class UpgradeAdapter extends RecyclerView.Adapter<UpgradeAdapter.UpgradeV
 
         ConstraintLayout constraintLayout = holder.itemView.findViewById(R.id.upgradeView_card);
         TextView textViewTitulo = holder.itemView.findViewById(R.id.upgradeView_titulo);
+        TextView textViewVersion = holder.itemView.findViewById(R.id.upgradeView_version);
         TextView textViewDesc = holder.itemView.findViewById(R.id.upgradeView_desc);
         TextView textViewCusto = holder.itemView.findViewById(R.id.upgradeView_custo);
 
         textViewTitulo.setText(upgrade.getNome());
+        textViewVersion.setText(String.valueOf(upgrade.getVersion()));
         textViewDesc.setText(upgrade.getDesc());
         textViewCusto.setText(String.valueOf(upgrade.getCusto()));
 
@@ -89,7 +91,7 @@ public class UpgradeAdapter extends RecyclerView.Adapter<UpgradeAdapter.UpgradeV
                 } else {
                     cookie.setCps(cookie.getCps() + upgrade.getEfeito());
                 }
-                Upgrade novoUpgrade = new Upgrade(upgrade.getNome(),upgrade.getDesc(),upgrade.getEfeito()*2,upgrade.isClick(),upgrade.getCusto()*3);
+                Upgrade novoUpgrade = new Upgrade(upgrade.getNome(), upgrade.getVersion()+1, upgrade.getDesc(),upgrade.getEfeito()*2,upgrade.isClick(),upgrade.getCusto()*3);
 
                 ur.saveInIndex(novoUpgrade,position);
                 ur.delete(upgrade);

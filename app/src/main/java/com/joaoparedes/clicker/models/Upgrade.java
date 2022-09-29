@@ -6,9 +6,11 @@ public class Upgrade {
     private int efeito;
     private boolean click;
     private int custo;
+    private int version;
 
-    public Upgrade(String nome, String desc, int efeito, boolean click, int custo) {
+    public Upgrade(String nome, int version, String desc, int efeito, boolean click, int custo) {
         this.nome = nome;
+        this.version = version;
         this.desc = desc;
         this.efeito = efeito;
         this.click = click;
@@ -33,5 +35,13 @@ public class Upgrade {
 
     public int getCusto() {
         return custo;
+    }
+
+    public int getVersion() {
+        return version;
+    }
+
+    public void setVersion(int version) {
+        this.version = version;
     }
 }

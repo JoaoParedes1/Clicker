@@ -63,7 +63,7 @@ public class GameActivity extends AppCompatActivity {
         handler.postDelayed( runnable = () -> {
             cookie.cookieSegundo();
             quantText.setText(String.valueOf(cookie.getNumeroCookies()));
-            quantCs.setText(String.valueOf(cookie.getCps()) + " c/s");
+            quantCs.setText(String.valueOf(cookie.getClick())+ " click\n" + String.valueOf(cookie.getCps()) + " c/s");
             handler.postDelayed(runnable, delay);
         }, delay);
 
