@@ -74,7 +74,7 @@ public class UpgradeAdapter extends RecyclerView.Adapter<UpgradeAdapter.UpgradeV
                 if(upgrade.getNome() == "Vitoria") {
                     AlertDialog.Builder builder = new AlertDialog.Builder(context);
                     builder.setMessage("Voce ganhou!");
-                    builder.setCancelable(true);
+                    builder.setCancelable(false);
                     builder.setPositiveButton(
                             "Oba",
                             (dialog, id) -> {
