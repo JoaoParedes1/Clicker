@@ -50,6 +50,7 @@ public class UpgradeAdapter extends RecyclerView.Adapter<UpgradeAdapter.UpgradeV
             , int position) {
         Upgrade upgrade = upgrades.get(position);
 
+        ConstraintLayout constraintLayout = holder.itemView.findViewById(R.id.upgradeView_card);
         TextView textViewTitulo = holder.itemView.findViewById(R.id.upgradeView_titulo);
         TextView textViewDesc = holder.itemView.findViewById(R.id.upgradeView_desc);
         TextView textViewCusto = holder.itemView.findViewById(R.id.upgradeView_custo);
@@ -58,14 +59,14 @@ public class UpgradeAdapter extends RecyclerView.Adapter<UpgradeAdapter.UpgradeV
         textViewDesc.setText(upgrade.getDesc());
         textViewCusto.setText(String.valueOf(upgrade.getCusto()));
 
-        Context context = holder.constraintLayout.getContext();
+        Context context = constraintLayout.getContext();
 
 
         if(upgrade.getCusto() <= cookie.getNumeroCookies()) {
-            holder.constraintLayout.setAlpha(1f);
-            holder.constraintLayout.setClickable(true);
+            constraintLayout.setAlpha(1f);
+            constraintLayout.setClickable(true);
 
-            holder.constraintLayout.setOnClickListener( v-> {
+            constraintLayout.setOnClickListener( v-> {
                 cookie.setNumeroCookies(cookie.getNumeroCookies() - upgrade.getCusto());
 
                 if(upgrade.getNome() == "Vitoria") {
@@ -78,7 +79,6 @@ public class UpgradeAdapter extends RecyclerView.Adapter<UpgradeAdapter.UpgradeV
                                 Intent intent = new Intent(Intent.ACTION_MAIN);
                                 intent.addCategory(Intent.CATEGORY_HOME);
                                 context.startActivity(intent);
-
                             });
                     AlertDialog alert = builder.create();
                     alert.show();
@@ -90,14 +90,16 @@ public class UpgradeAdapter extends RecyclerView.Adapter<UpgradeAdapter.UpgradeV
                     cookie.setCps(cookie.getCps() + upgrade.getEfeito());
                 }
                 Upgrade novoUpgrade = new Upgrade(upgrade.getNome(),upgrade.getDesc(),upgrade.getEfeito()*2,upgrade.isClick(),upgrade.getCusto()*3);
-                ur.save(novoUpgrade);
 
+                ur.saveInIndex(novoUpgrade,position);
                 ur.delete(upgrade);
+
                 notifyDataSetChanged();
             });
+
         } else {
-            holder.constraintLayout.setAlpha(.5f);
-            holder.constraintLayout.setClickable(false);
+            constraintLayout.setAlpha(.5f);
+            constraintLayout.setClickable(false);
         }
     }
 
@@ -107,14 +109,8 @@ public class UpgradeAdapter extends RecyclerView.Adapter<UpgradeAdapter.UpgradeV
     }
 
     public static class UpgradeViewHolder extends RecyclerView.ViewHolder{
-        private ConstraintLayout constraintLayout;
-
         public UpgradeViewHolder(@NonNull View itemView) {
             super(itemView);
-
-            constraintLayout = itemView.findViewById(R.id.upgradeView_card);
-            constraintLayout.setAlpha(.5f);
-            constraintLayout.setClickable(false);
         }
     }
 }

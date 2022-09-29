@@ -25,12 +25,16 @@ public class UpgradeRepository {
 
     private UpgradeRepository(){ }
 
-    public void save(Upgrade gift){
-        upgrades.add(gift);
+    public void save(Upgrade upgrade){
+        upgrades.add(upgrade);
     }
 
-    public void delete(Upgrade gift){
-        upgrades.remove(gift);
+    public void saveInIndex(Upgrade upgrade, int position){
+        upgrades.add(position, upgrade);
+    }
+
+    public void delete(Upgrade upgrade){
+        upgrades.remove(upgrade);
     }
 
     public ArrayList<Upgrade> getAll(){
@@ -39,17 +43,5 @@ public class UpgradeRepository {
 
     public Upgrade getByIndex(int index){
         return upgrades.get(index);
-    }
-
-    public void deleteByIndex(int index){
-        upgrades.remove(index);
-    }
-
-    public boolean isInit() {
-        return init;
-    }
-
-    public void setInit(boolean init) {
-        this.init = init;
     }
 }
